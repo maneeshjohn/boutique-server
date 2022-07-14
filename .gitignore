@@ -39,6 +39,7 @@ src/app.js
 src/config/db.ts
 
 # Dependency directories
+build/
 node_modules/
 jspm_packages/
 
