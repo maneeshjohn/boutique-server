@@ -1,20 +1,20 @@
 import express from "express";
-import passport from "passport";
 
 import { user } from "../controllers";
+import { verifyToken } from "../middlewares/auth";
 
 const router = express.Router();
 
-router.post("/", passport.authenticate('jwt', { session: false }), user.create);
+router.post("/", user.create);
 
-router.post("/login", passport.authenticate('jwt', { session: false }), user.login);
+router.post("/login", user.login);
 
-router.get("/", passport.authenticate('jwt', { session: false }), user.fetchAll);
+router.get("/", verifyToken, user.fetchAll);
 
-router.get("/:id", passport.authenticate('jwt', { session: false }), user.fetchOne);
+router.get("/:id", verifyToken, user.fetchOne);
 
-router.put("/:id", passport.authenticate('jwt', { session: false }), user.update);
+router.put("/:id", verifyToken, user.update);
 
-router.delete("/:id", passport.authenticate('jwt', { session: false }), user.remove);
+router.delete("/:id", verifyToken, user.remove);
 
 export default router;

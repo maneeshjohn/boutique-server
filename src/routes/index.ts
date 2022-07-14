@@ -1,10 +1,13 @@
 import express from "express";
+
 import user from "./user";
-import service from "./service";
+import book from "./book";
+import address from "./address";
 
 const app = express();
 
 app.use("/user", user);
-app.use("/service", service);
+app.use("/book", book);
+app.use("/address", address);
 
 export default app;

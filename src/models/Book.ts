@@ -1,14 +1,22 @@
 import { Schema } from "mongoose";
 
-const ServiceSchema = new Schema({
+const BookSchema = new Schema({
   name: {
     type: String,
     required: true,
     unique: true
   },
+  author: {
+    type: String,
+    required: true
+  },
   description: {
     type: String,
     required: true
+  },
+  cover: {
+    type: String,
+    default: ""
   },
   created: {
     type: Date,
@@ -20,4 +28,4 @@ const ServiceSchema = new Schema({
   }
 });
 
-export default ServiceSchema;
+export default BookSchema;

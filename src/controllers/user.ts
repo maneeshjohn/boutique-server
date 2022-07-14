@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import { User } from "../models";
 import { userValidations } from "../utils/validations";
 import { Role } from "../types/user";
+import { SECRET_KEY } from "../config/db";
 
 const create = (req: Request, res: Response) => {
   const { error } = userValidations.createSchema.validate(req.body);
@@ -25,7 +26,7 @@ const create = (req: Request, res: Response) => {
           newUser.save()
             .then(user => {
               const { _id, email, role, approved, ..._ } = user;
-              const token = jwt.sign({ id: _id, email, role, approved }, email);
+              const token = jwt.sign({ id: _id, email, role, approved }, SECRET_KEY);
               const userData = { _id, email, role, approved };
               const resp = { user: userData, token };
               res.json(resp);
@@ -61,7 +62,7 @@ const update = (req: Request, res: Response) => {
   const data = req.body;
   data.updated = Date.now();
 
-  User.findOneAndUpdate({ user: req.params.id }, { $set: data }, { new: true })
+  User.findOneAndUpdate({ _id: req.params.id }, { $set: data }, { new: true })
     .then(user => {
       if(!user){
         return res.status(404).json({ message: "User not found" });
@@ -83,14 +84,14 @@ const login = (req: Request, res: Response) => {
   User.findOne({ email: req.body.email }).select("+password")
     .then(user => {
       if(!user){
-        return res.status(404).json({ message: "User not dound" });
+        return res.status(404).json({ message: "User not found" });
       }
       const { _id, email, name, approved, role } = user;
       bcrypt.compare(req.body.password, user.password)
         .then(success => {
           if(success) {
             const payload = { id: _id, name, email, role, approved };
-            const token = jwt.sign(payload, user.email);
+            const token = jwt.sign(payload, SECRET_KEY);
             const userData = { _id, email, role, approved, name };
             return res.json({ user: userData, token });
           } else {

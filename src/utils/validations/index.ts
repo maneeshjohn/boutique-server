@@ -1,7 +1,9 @@
 import * as userValidations from "./userValidations";
-import * as serviceValidations from "./serviceValidations";
+import * as bookValidations from "./bookValidations";
+import * as addressValidations from "./addressValidations";
 
 export {
   userValidations,
-  serviceValidations
+  bookValidations,
+  addressValidations
 }

@@ -1,7 +1,9 @@
 import * as user from "./user";
-import * as service from "./service";
+import * as book from "./book";
+import * as address from "./address";
 
 export {
   user,
-  service
+  book,
+  address
 }
